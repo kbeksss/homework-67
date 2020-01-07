@@ -1,38 +1,78 @@
 const initialState = {
-    rightPassword: '1234',
-    numbers: '',
-    right: false,
-    password: '',
+    firstNum: '',
+    secondNum: '',
+    operator: '',
+    result: null,
 };
 
 const reducer = (state = initialState, action) => {
-    if(state.numbers.length < 4 && action.type === 'ADD_NUM'){
+    if(action.type === 'ADD_TO_SCREEN'){
+        if(state.result){
+            return {
+                ...state,
+                firstNum: '',
+                secondNum: '',
+                operator: '',
+                result: null,
+            }
+        }
+        if(!state.operator){
+            return {
+                ...state,
+                firstNum: state.firstNum.toString() + action.value,
+            }
+        }else{
+            return {
+                ...state,
+                secondNum: state.secondNum.toString() + action.value,
+            }
+        }
+    } else if(action.type === 'ADD_OPERATOR'){
         return {
             ...state,
-            numbers: state.numbers + action.value.toString(),
-            password: state.password + '*'
-        };
-    } else{
-        switch (action.type) {
-
-            case 'REMOVE_NUM':
+            operator: action.value,
+        }
+    } else if(action.type === 'SOLVE' && state.secondNum){
+        switch (state.operator) {
+            case "+":
                 return {
                     ...state,
-                    numbers: state.numbers.substring(0, state.numbers.length -1),
-                    password: state.password.substring(0, state.password.length -1),
+                    result: parseInt(state.firstNum) + parseInt(state.secondNum)
                 };
-            case 'CHECK':
-                if(state.numbers === state.rightPassword){
-                    return {
-                        ...state,
-                        right: true,
-                        password: 'ACCESS GRANTED'
-                    };
-                } else{
-                    break;
-                }
+            case '-':
+                return {
+                    ...state,
+                    result: parseInt(state.firstNum) - parseInt(state.secondNum)
+                };
+            case "*":
+                return {
+                    ...state,
+                    result: parseInt(state.firstNum) * parseInt(state.secondNum)
+                };
+            case "/":
+                return {
+                    ...state,
+                    result: parseInt(state.firstNum) / parseInt(state.secondNum)
+                };
             default:
                 break;
+        }
+    } else if(action.type === 'REMOVE'){
+        if(state.secondNum){
+            return {
+                ...state,
+                secondNum: state.secondNum.substring(0, state.secondNum.length -1),
+            }
+        } else if(state.operator){
+            return {
+                ...state,
+                operator: '',
+            }
+        } else {
+            return {
+                ...state,
+                firstNum: state.firstNum.substring(0, state.firstNum.length -1),
+            }
         }
     }
     return state;
