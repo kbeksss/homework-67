@@ -1,0 +1,29 @@
+.Calc-wrapper{
+    margin: 30px auto;
+    width: 350px;
+    border: 1px solid;
+    padding: 3px 5px;
+}
+.Screen{
+    border: 1px solid;
+    min-width: 300px;
+    min-height: 100px;
+    font-size: 50px;
+    padding: 10px 5px;
+    line-height: 100px;
+}
+.Buttons{
+    margin-top: 5px;
+    border: 1px solid;
+    display: flex;
+    flex-direction: column;
+}
+.btns{
+    display: flex;
+    justify-content: space-between;
+}
+.btns button{
+    font-size: 30px;
+    width: 120px;
+    height: 70px;
+}
